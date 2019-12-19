@@ -91,6 +91,7 @@ import org.dynmap.bukkit.permissions.GroupManagerPermissions;
 import org.dynmap.bukkit.permissions.PermissionProvider;
 import org.dynmap.bukkit.permissions.bPermPermissions;
 import org.dynmap.bukkit.permissions.LuckPermsPermissions;
+import org.dynmap.bukkit.permissions.LuckPerms5Permissions;
 import org.dynmap.common.BiomeMap;
 import org.dynmap.common.DynmapCommandSender;
 import org.dynmap.common.DynmapPlayer;
@@ -214,22 +215,6 @@ public class DynmapPlugin extends JavaPlugin implements DynmapAPI {
             return -1;
         }
 		
-		@Override
-		public int isSignAt(String wname, int x, int y, int z) {
-			World w = getServer().getWorld(wname);
-            if((w != null) && w.isChunkLoaded(x >> 4, z >> 4)) {
-                Block b = w.getBlockAt(x, y, z);
-				BlockState s = b.getState();
-				
-				if (s instanceof Sign) {
-					return 1;
-				} else {
-					return 0;
-				}
-			}
-            return -1;
-		}
-
         @Override
         public int isSignAt(String wname, int x, int y, int z) {
             World w = getServer().getWorld(wname);
@@ -879,6 +864,8 @@ public class DynmapPlugin extends JavaPlugin implements DynmapAPI {
             permissions = GroupManagerPermissions.create(getServer(), "dynmap");
         if (permissions == null)
             permissions = LuckPermsPermissions.create(getServer(), "dynmap");
+        if (permissions == null)
+            permissions = LuckPerms5Permissions.create(getServer(), "dynmap");
         if (permissions == null)
             permissions = BukkitPermissions.create("dynmap", perdefs);
         if (permissions == null)
